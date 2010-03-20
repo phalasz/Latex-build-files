@@ -1,28 +1,26 @@
-
 .SUFFIXES: .dvi .pdf .tex .show
 
 all:
 	for F in *.tex; do \
-	latex $$F; \
+	latex $$F;\
 	bibtex $$(basename $$F .tex); \
 	- makeindex $$F; \
-	latex $$F; \
+	latex $$F;\
 	latex $$F; \
 	done
 
-.tex.pdf:
-	pdflatex $<
+%.pdf: %.dvi
+	dvipdf $<
 
-.tex.dvi:
+%.dvi: %.tex
 	latex $<
-	bibtex $$(basename $< .tex)
+#	bibtex $$(basename $< .tex)
 	- makeindex $<
 	latex $<
 	latex $<
 
 %.show: %.pdf
-	acroread $<
+	xpdf $<
 
 clean:
-	rm -fr *.bbl *.blg *.ilg *.ind *.lof *.log *.pdf *.toc *.aux .*.swp 
-
+	rm -fr *.nav *.snm *.out *.bbl *.ind *.blg *.ilg *.lof *.log *.pdf *.toc *.aux .*.swp

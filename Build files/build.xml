@@ -1,79 +1,81 @@
-<project name="Automate Latex Document Creation Part 2"
-   	default="all" basedir=".">
-	<taskdef name="latex" classname="de.dokutransdata.antlatex.LaTeX"
-		classpath="d:/ant-1.7.1/lib/ant_latex.jar" />
+<project name="A latex project" default="all" basedir=".">
+    <taskdef name="latex" classname="de.dokutransdata.antlatex.LaTeX"
+        classpath="" />
 
-	<property file="build.properties" />
+    <property file="build.properties" />
 
-	<target name="all">
-		<latex
-			verbose="on"
-			clean="on"
-			pdftex="off"
-			workingDir="${basedir}"
-			>
-			<makeindex
-				run="on"
-				workingDir="${basedir}">
-				<fileset dir="${basedir}">  
-	               <include name="*.nlo" />  
-    	        </fileset>  
-			</makeindex>
-			<bibtex
-				run="on"
-				workingDir="${basedir}" />
-		<fileset dir="${basedir}">
-			<include name="*.tex" />
-		</fileset>
-		</latex>
-	</target>
+    <target name="all">
+        <latex
+            verbose="${project.verbose}"
+            clean="${project.clean}"
+            pdftex="off"
+            workingdir="${basedir}">
+            <makeindex
+                run="on"
+                workingDir="${basedir}">
+                <fileset dir="${basedir}">
+                    <include name="*.nlo" />
+                </fileset>
+            </makeindex>
+            <bibtex
+                run="on"
+                workingDir="${basedir}" />
+            <fileset dir="${basedir}">
+                <include name="*.tex" />
+            </fileset>
+        </latex>
+    </target>
 
-	<target name="dvi">
-		<echo message="Creating ${file.name}.dvi from ${file.name}.tex" />
-		<latex
-			latexfile="${file.name}.tex"
-			verbose="on"
-			clean="on"
-			pdftex="off"
-			workingDir="${basedir}">
-				<makeindex
-				run="on"
-				workingDir="${basedir}">
-				<fileset dir="${basedir}">  
-	               <include name="*.nlo" />  
-    	        </fileset>  
-			</makeindex>
-			<bibtex
-				run="on"
-				workingDir="${basedir}" />
-		</latex>
-	</target>
+    <target name="clean">
+        <echo>Cleaning up</echo>
+    </target>
 
-	<target name="pdf">
-		<echo message="Creating ${file.name}.pdf from ${file.name}.tex" />
-		<latex
-			latexfile="${file.name}.tex"
-			verbose="on"
-			clean="on"
-			pdftex="on"
-			workingDir="${basedir}">
-				<makeindex
-				run="on"
-				workingDir="${basedir}">
-				<fileset dir="${basedir}">  
-	               <include name="*.nlo" />  
-    	        </fileset>  
-			</makeindex>
-			<bibtex
-				run="on"
-				workingDir="${basedir}" />
-		</latex>
-	</target>
+    <target name="dvi">
+        <echo message="Creating ${file.name}.dvi from ${file.name}.tex" />
+        <latex 
+            latexfile="${file.name}.tex"
+            verbose="${project.verbose}"
+            clean="${project.clean}"
+            pdftex="off"
+            workingDir="${basedir}">
+            <makeindex
+                run="on"
+                workingDir="${basedir}">
+                <fileset dir="${basedir}">
+                    <include name="*.nlo" />
+                </fileset>
+            </makeindex>
+            <bibtex
+                run="on"
+                workingDir="${basedir}" />
+        </latex>
+    </target>
 
-	<target name="show" depends="pdf">
-		<echo>Running show for ${file.name}.pdf</echo>
-		<exec executable="${project.showpdf}" spawn="true">
-			<arg value="${file.name}.pdf" />
-		</exec>
-	</target>
+    <target name="pdf">
+        <echo message="Creating ${file.name}.dvi from ${file.name}.tex" />
+        <latex 
+            latexfile="${file.name}.tex"
+            verbose="${project.verbose}"
+            clean="${project.clean}"
+            pdftex="on"
+            workingDir="${basedir}">
+            <makeindex
+                run="on"
+                workingDir="${basedir}">
+                <fileset dir="${basedir}">
+                    <include name="*.nlo" />
+                </fileset>
+            </makeindex>
+            <bibtex
+                run="on"
+                workingDir="${basedir}" />
+        </latex>
+    </target>
+
+    <target name="show" depends="pdf">
+        <echo>Running show for ${file.name}.pdf</echo>
+        <exec executable="${project.showpdf}" spawn="true">
+            <arg value="${file.name}.pdf" />
+        </exec>
+    </target>
 </project>
